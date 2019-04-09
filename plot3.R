@@ -26,8 +26,8 @@ pdata <- NEI %>% subset(fips == "24510") %>%
 png("plot3.png")
 g <- ggplot(pdata,aes(x=as.character(year),y=tons))+
      geom_col(aes(col=type, fill=type),show.legend = FALSE)+
-     labs(title="Total PM 2.5 Emissions by Type - Baltimore City, MD")+
+     labs(title="Total PM 2.5 Emissions by Type in Baltimore City")+
      ylab("Tons PM 2.5")+xlab("Year")+
-     facet_wrap(.~type)
+     facet_wrap(.~type)+theme_light()
 print(g)
 dev.off()

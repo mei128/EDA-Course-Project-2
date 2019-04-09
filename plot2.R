@@ -28,5 +28,5 @@ with(pdata,barplot(tons,space = 0.8,
                    col = "steelblue",
                    ylab = "Tons PM 2.5",
                    cex.axis=0.7))
-title("Total PM 2.5 Emissions in Baltimore City, MD")
+title("Total PM 2.5 Emissions in Baltimore City")
 dev.off()
