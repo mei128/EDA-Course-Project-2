@@ -1,3 +1,5 @@
+library(ggplot2)
+
 # Download data if there is no local copy
 
 dataPath1 <- "summarySCC_PM25.rds"
@@ -15,17 +17,17 @@ if (!file.exists(dataPath1)) {
 if (!exists("NEI")) NEI <- readRDS(dataPath1)
 if (!exists("SCC")) SCC <- readRDS(dataPath2)
 
-# Totalize emissions from all sources
-pdata <- NEI %>% group_by(year) %>%
+# Totalize emissions from all sources... from fips == "24510"
+pdata <- NEI %>% subset(fips == "24510") %>%
+                 group_by(year,type) %>%
                  summarize(tons = sum(Emissions))
 
-# Barplot
-png("plot1.png")
-par(mar=c(3,5,5,2), las = 1)
-with(pdata,barplot(tons,space = 0.8,
-                   names.arg = year,
-                   col = "blue",
-                   ylab = "Tons PM 2.5",
-                   cex.axis=0.7))
-title("Total PM 2.5 Emissions")
+# ggplot with column geometry
+png("plot3.png")
+g <- ggplot(pdata,aes(x=as.character(year),y=tons))+
+     geom_col(aes(col=type, fill=type),show.legend = FALSE)+
+     labs(title="Total PM 2.5 Emissions by Type - Baltimore City, MD")+
+     ylab("Tons PM 2.5")+xlab("Year")+
+     facet_wrap(.~type)
+print(g)
 dev.off()
